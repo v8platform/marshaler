@@ -65,7 +65,7 @@ func Marshal(object interface{}) ([]string, error) {
 					return nil, err
 				}
 
-				appendMaps(fieldsList, inheritFeild)
+				fieldsList = append(fieldsList, inheritFeild...)
 
 				continue
 			}

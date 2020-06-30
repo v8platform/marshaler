@@ -39,3 +39,30 @@ func (t *marshalTestSuite) TestMarshalStrings() {
 	//t.r().Equal(codes[0].PromocodeID, "START", "Промокод должен быть START")
 
 }
+
+func (t *marshalTestSuite) TestMarshalInnerStructs() {
+
+	type inner struct {
+		S string `v8:"/S"`
+	}
+
+	type test struct {
+		S      inner  `v8:",inherit"`
+		Str    string `v8:"-str"`
+		StrOpt string `v8:"-strOpt, optional"`
+	}
+	object := test{S: inner{
+		"testing",
+	}}
+	object.Str = "TesString"
+	object.StrOpt = "TesOptString"
+
+	values, err := Marshal(object)
+
+	t.r().NoError(err)
+
+	t.r().Equal(values[0], "/S "+"testing", "must be equal")
+	t.r().Equal(values[1], "-str "+object.Str, "must be equal")
+	//t.r().Equal(codes[0].PromocodeID, "START", "Промокод должен быть START")
+
+}
