@@ -1,4 +1,4 @@
-module marshaler
+module github.com/v8platform/runner
 
 go 1.14
 
